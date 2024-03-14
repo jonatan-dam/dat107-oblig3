@@ -96,8 +96,8 @@ public class Ansatt {
 
 	@Override
 	public String toString() {
-		return "Ansatt [ansatt_id=" + ansatt_id + ", brukernavn=" + brukernavn + ", fornavn=" + fornavn + ", etternavn="
-				+ etternavn + ", ansettelsesdato=" + ansettelsesdato + ", stilling=" + stilling + ", maanedsloonn="
+		return "Ansatt [AnsattID = " + ansatt_id + ", brukernavn = " + brukernavn + ", fornavn = " + fornavn + ", etternavn = "
+				+ etternavn + ", ansettelsesdato = " + ansettelsesdato + ", stilling = " + stilling + ", Månedslønn = "
 				+ maanedsloonn + "]";
 	}
 	
