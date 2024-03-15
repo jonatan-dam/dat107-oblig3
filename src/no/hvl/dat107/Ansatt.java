@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,6 +25,12 @@ public class Ansatt {
 	private LocalDate ansettelsesdato;
 	private String stilling;
 	private BigDecimal maanedsloonn;
+	
+	
+	@ManyToOne // Betegner forholdet / kardinaliteten mellom ansatt og avdeling
+	@JoinColumn(name = "avdeling_id") // Også nødvendig for å sette avdeling_id som FK
+	private Avdeling avdeling; // Som refererer til avdelingen den ansatte jobber i
+	
 	
 	public Ansatt() {}
 	
@@ -93,12 +101,20 @@ public class Ansatt {
 	public void setMaanedsloonn(BigDecimal maanedsloonn) {
 		this.maanedsloonn = maanedsloonn;
 	}
+	
+	public Avdeling getAvdeling() {
+		return avdeling;
+	}
+	
+	public void setAvdeling(Avdeling avdeling) {
+		this.avdeling = avdeling;
+	}
 
 	@Override
 	public String toString() {
-		return "Ansatt [AnsattID = " + ansatt_id + ", brukernavn = " + brukernavn + ", fornavn = " + fornavn + ", etternavn = "
-				+ etternavn + ", ansettelsesdato = " + ansettelsesdato + ", stilling = " + stilling + ", Månedslønn = "
-				+ maanedsloonn + "]";
+		return "Ansatt [ansatt_id=" + ansatt_id + ", brukernavn=" + brukernavn + ", fornavn=" + fornavn + ", etternavn="
+				+ etternavn + ", ansettelsesdato=" + ansettelsesdato + ", stilling=" + stilling + ", maanedsloonn="
+				+ maanedsloonn + ", avdeling=" + avdeling.getAvdelingsnavn() + "]";
 	}
 	
 	

@@ -7,9 +7,11 @@ import java.util.Scanner;
 
 public class Meny {
 	private AnsattDAO ansattDAO;
+	private AvdelingDAO avdelingDAO;
 	
 	public Meny() {
 		ansattDAO = new AnsattDAO();
+		avdelingDAO = new AvdelingDAO();
 	}
 	
 	public void start() {
@@ -28,11 +30,14 @@ public class Meny {
 							"4: Oppdater en ansatt sin lønn" + "\n" +
 							"5: Oppdater en ansatt sin stilling" + "\n" +
 							"6: Legg til en ny ansatt" + "\n" +
+							"7: Finn avdeling med ID" + "\n" + 
 							"0: Avslutt programmet" + "\n");
 		
 		int nyttValg = Integer.parseInt(tastatur.nextLine());
-		Ansatt a = null;
+		Ansatt ansA = null;
+		Avdeling avdA = null;
 		int ansattID;
+		int avdelingID;
 		BigDecimal lonn;
 		String stilling;
 		
@@ -47,14 +52,14 @@ public class Meny {
 		case 1:
 			System.out.println("Tast inn ansattID på den ansatte du ønsker å søke på: ");
 			ansattID = Integer.parseInt(tastatur.nextLine());
-			a = ansattDAO.finnAnsattMedId(ansattID);
-			System.out.println(a.toString());
+			ansA = ansattDAO.finnAnsattMedId(ansattID);
+			System.out.println(ansA.toString());
 			break;
 		case 2:
 			System.out.println("Tast inn brukernavn på den ansatte du ønsker å søke på: ");
 			String brukernavn = tastatur.nextLine();
-			a = ansattDAO.finnAnsattMedBrukernavn(brukernavn);
-			System.out.println(a.toString());
+			ansA = ansattDAO.finnAnsattMedBrukernavn(brukernavn);
+			System.out.println(ansA.toString());
 			break;
 		case 3:
 			List<Ansatt> ansatte = ansattDAO.listAlleAnsatte();
@@ -79,6 +84,12 @@ public class Meny {
 		case 6:
 			ansattDAO.leggTilAnsatt(nyA);
 			System.out.println("Ansatt: \n" + nyA.toString() + "\ner lagt til");
+			break;
+		case 7:
+			System.out.println("Tast inn avdelingsID på avdelingen du ønsker å søke på: ");
+			avdelingID = Integer.parseInt(tastatur.nextLine());
+			avdA = avdelingDAO.finnAvdelingMedId(avdelingID);
+			System.out.println(avdA.toString());
 			break;
 		default:
 			uendeligLokke();
