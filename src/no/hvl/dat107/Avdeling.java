@@ -30,7 +30,14 @@ public class Avdeling {
 	@OneToMany(mappedBy = "avdeling", fetch = FetchType.EAGER) // Betegner forholdet / kardinaliteten mellom ansatt og avdeling
 	private List<Ansatt> ansatte;
 	
+	public Avdeling() {
+		
+	}
 	
+	public Avdeling(String avdelingsnavn, Ansatt sjef) {
+		this.avdelingsnavn = avdelingsnavn;
+		this.sjef = sjef; 
+	}
 
 	public int getAvdeling_id() {
 		return avdeling_id;

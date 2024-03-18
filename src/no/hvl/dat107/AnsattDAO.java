@@ -126,6 +126,36 @@ public class AnsattDAO {
 		} finally {
 			em.close();
 			
+		} 
+	}
+	
+	public void endreAvdeling(int ansattID, int avdelingsID) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		
+		try {
+			tx.begin();
+			Ansatt ansA = em.find(Ansatt.class, ansattID);
+			Avdeling nyAvd = em.find(Avdeling.class, avdelingsID);
+			Avdeling gammelAvd = ansA.getAvdeling();
+			
+			
+			if(ansA.getAnsatt_id() != gammelAvd.getSjef().getAnsatt_id()) {
+				gammelAvd.getAnsatte().remove(ansA);
+				ansA.setAvdeling(nyAvd);
+				nyAvd.getAnsatte().add(ansA);
+			}else {
+				System.out.println("Sjefer kan ikke bytte avdeling!");
+			}
+			
+			em.persist(ansA);
+			tx.commit();
+			
+		} catch (Throwable e) {
+			e.printStackTrace();
+			tx.rollback();
+		} finally {
+			em.close();
 		}
 	}
 	

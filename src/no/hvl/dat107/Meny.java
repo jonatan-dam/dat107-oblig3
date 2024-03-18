@@ -31,21 +31,29 @@ public class Meny {
 							"5: Oppdater en ansatt sin stilling" + "\n" +
 							"6: Legg til en ny ansatt" + "\n" +
 							"7: Finn avdeling med ID" + "\n" + 
+							"8: List alle ansatte i en avdeling" + "\n" + 
+							"9: Oppdatere avdeling på en ansatt" + "\n" + 
+							"10: Opprett en ny avdeling" + "\n" + 
 							"0: Avslutt programmet" + "\n");
 		
 		int nyttValg = Integer.parseInt(tastatur.nextLine());
 		Ansatt ansA = null;
 		Avdeling avdA = null;
+		Avdeling Oslo = avdelingDAO.finnAvdelingMedId(1);
+		Avdeling Stavanger = avdelingDAO.finnAvdelingMedId(2);
+		Avdeling Bergen = avdelingDAO.finnAvdelingMedId(3);
 		int ansattID;
 		int avdelingID;
+		String avdelingsnavn;
 		BigDecimal lonn;
 		String stilling;
 		
 		
-		Ansatt nyA = new Ansatt("KR", "Kai", "Ronni", LocalDate.now(), "Daredevil", BigDecimal.valueOf(300000));
+		Ansatt nyA = new Ansatt("KR", "Kai", "Ronni", LocalDate.now(), "Daredevil", BigDecimal.valueOf(300000), Oslo);
 		
 		
-		switch(nyttValg) {
+		
+		switch(nyttValg) { 
 		case 0:
 			System.exit(0);
 			break;
@@ -91,6 +99,26 @@ public class Meny {
 			avdA = avdelingDAO.finnAvdelingMedId(avdelingID);
 			System.out.println(avdA.toString());
 			break;
+		case 8:
+			System.out.println("Tast inn avdelingsID på avdelingen du ønsker å se ansatte: ");
+			avdelingID = Integer.parseInt(tastatur.nextLine());
+			avdelingDAO.listAlleAnsatte(avdelingID);
+			break;
+		case 9:
+			System.out.println("Tast inn ansattID på den ansatte du ønsker å endre avdelingen til: ");
+			ansattID = Integer.parseInt(tastatur.nextLine());
+			System.out.println("Tast inn avdelingID på avdelingen du ønsker å overføre den ansatte til: ");
+			avdelingID = Integer.parseInt(tastatur.nextLine());
+			ansattDAO.endreAvdeling(ansattID, avdelingID);
+			break;
+		case 10:
+			System.out.println("Tast inn avdelingsnavn på den nye avdelingen: ");
+			avdelingsnavn = tastatur.nextLine();
+			System.out.println("Tast inn ansattID på den ansatte du ønsker å gjøre til sjef på avdeling " + avdelingsnavn + ": ");
+			ansattID = Integer.parseInt(tastatur.nextLine());
+			avdelingDAO.lagreNyAvdeling(avdelingsnavn, ansattID);
+			break;
+			
 		default:
 			uendeligLokke();
 		}

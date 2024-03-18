@@ -35,14 +35,15 @@ public class Ansatt {
 	public Ansatt() {}
 	
 	public Ansatt(String brukernavn, String fornavn, String etternavn, 
-			      LocalDate ansettelsesdato, String stilling, BigDecimal maanedsloonn) {
+			      LocalDate ansettelsesdato, String stilling, BigDecimal maanedsloonn, Avdeling avdeling) {
 		
 		this.brukernavn = brukernavn;
 		this.fornavn = fornavn;
 		this.etternavn = etternavn;
-		this.ansettelsesdato = ansettelsesdato;
+		this.ansettelsesdato = ansettelsesdato; 
 		this.stilling = stilling;
 		this.maanedsloonn = maanedsloonn;
+		this.avdeling = avdeling;
 		
 	}
 
