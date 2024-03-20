@@ -11,6 +11,7 @@ import no.hvl.dat107.dao.ProsjektDAO;
 import no.hvl.dat107.entity.Ansatt;
 import no.hvl.dat107.entity.Avdeling;
 import no.hvl.dat107.entity.Prosjekt;
+import no.hvl.dat107.entity.Prosjektdeltagelse;
 
 public class Meny {
 	private AnsattDAO ansattDAO;
@@ -40,8 +41,8 @@ public class Meny {
 							"3: Generer en liste av alle ansatte" + "\n" +
 							"4: Oppdater en ansatt sin lønn" + "\n" +
 							"5: Oppdater en ansatt sin stilling" + "\n" +
-							"6: Legg til en ny ansatt" + "\n\n" +
-							"7: Føre timer for ansatt på prosjekt" + "\n" + 
+							"6: Legg til en ny ansatt" + "\n" +
+							"7: Føre timer for ansatt på prosjekt" + "\n\n" + 
 							
 							"Handlinger på avdeling: \n" +
 							"8: Finn avdeling med ID" + "\n" + 
@@ -53,7 +54,9 @@ public class Meny {
 							"12: Legg til et nytt prosjekt" + "\n" + 
 							"13: Skriv ut all info om prosjektet" + "\n" + 
 							"14: Søk etter prosjekt ved ID" + "\n" + 
-							"15: Skriv ut all informasjon om et prosjekt" + "\n\n" + 
+							"15: Registrer prosjektdeltagelse" + "\n" + 
+							"16: Skriv ut all informasjon om et prosjekt" + "\n\n" + 
+							
 							
 							"0: Avslutt programmet" + "\n");
 		
@@ -72,6 +75,7 @@ public class Meny {
 		String avdelingsnavn;
 		BigDecimal lonn;
 		String stilling;
+		String rolle;
 		
 		
 		Ansatt nyA = new Ansatt("KR", "Kai", "Ronni", LocalDate.now(), "Daredevil", BigDecimal.valueOf(300000), Oslo);
@@ -168,6 +172,18 @@ public class Meny {
 			proA.skrivUt();
 			break;
 		case 15:
+			System.out.println("Tast inn ansattID til den ansatte: ");
+			ansattID = Integer.parseInt(tastatur.nextLine());
+			
+			System.out.println("Tast inn prosjektID til prosjektet: ");
+			prosjektID = Integer.parseInt(tastatur.nextLine());
+
+			System.out.println("Tast inn rollen til den ansatte i prosjektet: ");
+			rolle = tastatur.nextLine();
+			ansattDAO.registrerProsjektdeltagelse(ansattID, prosjektID, rolle);
+		
+			break;
+		case 16:
 			System.out.println("Tast inn prosjektID på prosjektet du ønsker å skrive ut: ");
 			prosjektID = Integer.parseInt(tastatur.nextLine());
 			prosjektDAO.skrivUtAlt(prosjektID);
