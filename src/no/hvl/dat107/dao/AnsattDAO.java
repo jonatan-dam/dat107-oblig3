@@ -1,4 +1,4 @@
-package no.hvl.dat107;
+package no.hvl.dat107.dao;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -9,6 +9,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
+import no.hvl.dat107.entity.Ansatt;
+import no.hvl.dat107.entity.Avdeling;
 
 public class AnsattDAO {
 

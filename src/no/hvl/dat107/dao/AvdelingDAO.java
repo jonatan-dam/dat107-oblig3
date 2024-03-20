@@ -1,4 +1,4 @@
-package no.hvl.dat107;
+package no.hvl.dat107.dao;
 
 import java.util.Map;
 
@@ -6,6 +6,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import no.hvl.dat107.entity.Ansatt;
+import no.hvl.dat107.entity.Avdeling;
 
 public class AvdelingDAO {
 

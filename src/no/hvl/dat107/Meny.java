@@ -5,6 +5,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
+import no.hvl.dat107.dao.AnsattDAO;
+import no.hvl.dat107.dao.AvdelingDAO;
+import no.hvl.dat107.entity.Ansatt;
+import no.hvl.dat107.entity.Avdeling;
+
 public class Meny {
 	private AnsattDAO ansattDAO;
 	private AvdelingDAO avdelingDAO;
