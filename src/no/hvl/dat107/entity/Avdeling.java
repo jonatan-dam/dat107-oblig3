@@ -86,11 +86,15 @@ public class Avdeling {
 	}
 
 
-
-	@Override
-	public String toString() {
-		return "Avdeling: [avdeling_id = " + avdeling_id + ", Avdelingsnavn = " + avdelingsnavn + ", sjef = " + sjef + "]";
+	public void skrivUt() {
+		String ut = "Avdeling: \n" + 
+					"Id: " + avdeling_id + "\n" +
+					"Avdelingsnavn: " + avdelingsnavn + "\n" +
+					"Sjef: " + sjef + "\n";
+				
+		System.out.println(ut);
 	}
+	
 	
 	
 

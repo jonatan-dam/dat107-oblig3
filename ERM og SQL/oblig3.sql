@@ -2,7 +2,7 @@
 
 -- Skript for å opprette databasen og legge inn testdata
     -- Skjema = dat107_oblig3
-        -- Tabeller = ansatt, avdeling
+        -- Tabeller = ansatt, avdeling, prosjekt, prosjektdeltakelse
 
 -- MERK!!! DROP SCHEMA ... CASCADE sletter alt !!!
 DROP SCHEMA IF EXISTS dat107_oblig3 CASCADE;
@@ -79,8 +79,46 @@ UPDATE avdeling
 SET sjef_id = 2
 WHERE avdelingsnavn = 'Bergen';
 
+CREATE TABLE prosjekt
+(
+	prosjekt_id SERIAL PRIMARY KEY,
+	navn VARCHAR(255) NOT NULL UNIQUE,
+	beskrivelse VARCHAR(255)
+);
 
-SELECT * FROM avdeling
+INSERT INTO
+   prosjekt(navn, beskrivelse)
+VALUES
+   ('Ny nettside','Utvikling av ny nettside for bedriften'),
+   ('Gammel nettside','Forsøker å gå tilbake til den gamle nettsiden etter en foreskrekket implementering av den nye'),
+   ('Kostnadsanalyse','Analysere kostnadene av implementering av ny nettside, samt kostnader for psykologisk hjelp til ansatte i prosjektet "Gammel nettside'),
+   ('Avvikling','Prosjekt for å avvikle driften til bedriften');
+   
+ 
+CREATE TABLE prosjektdeltagelse
+(
+	deltagelse_id SERIAL PRIMARY KEY,
+	ansatt_id INTEGER NOT NULL,
+	prosjekt_id INTEGER NOT NULL,
+	timer INTEGER,
+	rolle VARCHAR(255) NOT NULL,
+	CONSTRAINT deltegalsePK UNIQUE (ansatt_id, prosjekt_id),
+	CONSTRAINT ansattFK FOREIGN KEY (ansatt_id) REFERENCES ansatt(ansatt_id),
+	CONSTRAINT prosjektFK FOREIGN KEY (prosjekt_id) REFERENCES prosjekt(prosjekt_id)
+);
+
+INSERT INTO
+   prosjektdeltagelse(ansatt_id, prosjekt_id, timer, rolle)
+VALUES
+	(1, 1, 20, 'Prosjektleder'),
+	(4, 1, 10, 'Prosjektkoordinator'),
+	(7, 2, 20, 'Prosjektleder'),
+	(3, 3, 20, 'Prosjektleder'),
+	(8, 4, 20, 'Prosjektleder'),
+	(1, 3, 50, 'Analytiker');
+
+
+SELECT * FROM prosjektdeltagelse
 
 
 

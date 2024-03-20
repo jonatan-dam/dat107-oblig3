@@ -71,7 +71,9 @@ public class AvdelingDAO {
 			
 		} catch (Throwable e) {
 			e.printStackTrace();
-			tx.rollback();
+			if (tx.isActive()) {
+				tx.rollback();
+			} 
 		} finally {
 			em.close();
 		}

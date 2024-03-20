@@ -2,6 +2,7 @@ package no.hvl.dat107.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,6 +33,10 @@ public class Ansatt {
 	@JoinColumn(name = "avdeling_id") // Også nødvendig for å sette avdeling_id som FK
 	private Avdeling avdeling; // Som refererer til avdelingen den ansatte jobber i
 	
+	@OneToMany(mappedBy="ansatt")
+	private List<Prosjektdeltagelse> deltagelser;
+	
+	
 	
 	public Ansatt() {}
 	
@@ -45,6 +51,14 @@ public class Ansatt {
 		this.maanedsloonn = maanedsloonn;
 		this.avdeling = avdeling;
 		
+	}
+	
+	public void leggTilProsjektdeltagelse(Prosjektdeltagelse prosjektdeltagelse) {
+	        deltagelser.add(prosjektdeltagelse);
+	}
+
+	public void fjernProsjektdeltagelse(Prosjektdeltagelse prosjektdeltagelse) {
+	        deltagelser.remove(prosjektdeltagelse);
 	}
 
 	public int getAnsatt_id() {
@@ -110,12 +124,29 @@ public class Ansatt {
 	public void setAvdeling(Avdeling avdeling) {
 		this.avdeling = avdeling;
 	}
+	
+	public List<Prosjektdeltagelse> getDeltagelser() {
+		return deltagelser;
+	}
+
+	
+	public void skrivUt() {
+		String ut = "Ansatt: \n" + 
+					"Id: " + ansatt_id + "\n" +
+					"Brukernavn: " + brukernavn + "\n" +
+					"Navn: " + fornavn + " " + etternavn + "\n" +
+					"Ansettelsesdato: " + ansettelsesdato + "\n" +
+					"Stilling: " + stilling + "\n" +
+					"Månedslønn: " + maanedsloonn + "kr\n" +
+					"Avdeling: " + avdeling.getAvdelingsnavn();
+		System.out.println(ut);
+	}
 
 	@Override
 	public String toString() {
-		return "Ansatt [ansatt_id=" + ansatt_id + ", brukernavn=" + brukernavn + ", fornavn=" + fornavn + ", etternavn="
-				+ etternavn + ", ansettelsesdato=" + ansettelsesdato + ", stilling=" + stilling + ", maanedsloonn="
-				+ maanedsloonn + ", avdeling=" + avdeling.getAvdelingsnavn() + "]";
+		return "Ansatt: [Id=" + ansatt_id + ", brukernavn=" + brukernavn + ", navn=" + fornavn + " " + etternavn + 
+				", ansettelsesdato=" + ansettelsesdato + ", stilling=" + stilling + ", månedslønn="
+				+ maanedsloonn + "kr, avdeling=" + avdeling.getAvdelingsnavn() + ", deltagelser=" + deltagelser + "] \n";
 	}
 	
 	

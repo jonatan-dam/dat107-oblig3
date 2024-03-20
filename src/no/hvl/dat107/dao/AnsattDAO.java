@@ -11,6 +11,8 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import no.hvl.dat107.entity.Ansatt;
 import no.hvl.dat107.entity.Avdeling;
+import no.hvl.dat107.entity.Prosjekt;
+import no.hvl.dat107.entity.Prosjektdeltagelse;
 
 public class AnsattDAO {
 
@@ -89,7 +91,9 @@ public class AnsattDAO {
 			
 		} catch (Throwable e) {
 			e.printStackTrace();
-			tx.rollback();
+			if (tx.isActive()) {
+				tx.rollback();
+			} 
 		} finally {
 			em.close();
 		}
@@ -107,7 +111,9 @@ public class AnsattDAO {
 			tx.commit();
 		} catch (Throwable e) {
 			e.printStackTrace();
-			tx.rollback();
+			if (tx.isActive()) {
+				tx.rollback();
+			} 
 		} finally {
 			em.close();
 		}
@@ -124,7 +130,9 @@ public class AnsattDAO {
 			tx.commit();
 		} catch (Throwable e) {
 			e.printStackTrace();
-			tx.rollback();
+			if (tx.isActive()) {
+				tx.rollback();
+			} 
 		} finally {
 			em.close();
 			
@@ -155,7 +163,34 @@ public class AnsattDAO {
 			
 		} catch (Throwable e) {
 			e.printStackTrace();
-			tx.rollback();
+			if (tx.isActive()) {
+				tx.rollback();
+			} 
+		} finally {
+			em.close();
+		}
+	}
+	
+	public void registrerProsjektdeltagelse(int ansattID, int prosjektID, String rolle) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		
+		try {
+			tx.begin();
+			
+			Ansatt a = em.find(Ansatt.class, ansattID);
+			Prosjekt p = em.find(Prosjekt.class, prosjektID);
+			
+			Prosjektdeltagelse pd = new Prosjektdeltagelse(a, p, rolle);
+			
+			em.persist(pd);;
+			
+			tx.commit();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if (tx.isActive()) {
+				tx.rollback();
+			} 
 		} finally {
 			em.close();
 		}

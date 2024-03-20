@@ -7,16 +7,20 @@ import java.util.Scanner;
 
 import no.hvl.dat107.dao.AnsattDAO;
 import no.hvl.dat107.dao.AvdelingDAO;
+import no.hvl.dat107.dao.ProsjektDAO;
 import no.hvl.dat107.entity.Ansatt;
 import no.hvl.dat107.entity.Avdeling;
+import no.hvl.dat107.entity.Prosjekt;
 
 public class Meny {
 	private AnsattDAO ansattDAO;
 	private AvdelingDAO avdelingDAO;
+	private ProsjektDAO prosjektDAO;
 	
 	public Meny() {
 		ansattDAO = new AnsattDAO();
 		avdelingDAO = new AvdelingDAO();
+		prosjektDAO = new ProsjektDAO();
 	}
 	
 	public void start() {
@@ -39,23 +43,28 @@ public class Meny {
 							"8: List alle ansatte i en avdeling" + "\n" + 
 							"9: Oppdatere avdeling på en ansatt" + "\n" + 
 							"10: Opprett en ny avdeling" + "\n" + 
+							"11: Legg til et nytt prosjekt" + "\n" + 
+							"12: Skriv ut all info om prosjektet" + "\n" + 
+							"13: Søk etter prosjekt ved ID" + "\n" + 
 							"0: Avslutt programmet" + "\n");
 		
 		int nyttValg = Integer.parseInt(tastatur.nextLine());
 		Ansatt ansA = null;
 		Avdeling avdA = null;
+		Prosjekt proA = null;
 		Avdeling Oslo = avdelingDAO.finnAvdelingMedId(1);
 		Avdeling Stavanger = avdelingDAO.finnAvdelingMedId(2);
 		Avdeling Bergen = avdelingDAO.finnAvdelingMedId(3);
 		int ansattID;
 		int avdelingID;
+		int prosjektID;
 		String avdelingsnavn;
 		BigDecimal lonn;
 		String stilling;
 		
 		
 		Ansatt nyA = new Ansatt("KR", "Kai", "Ronni", LocalDate.now(), "Daredevil", BigDecimal.valueOf(300000), Oslo);
-		
+		Prosjekt nyP = new Prosjekt("Nytt prosjekt", "Beskrivelse av et nytt prosjekt");
 		
 		
 		switch(nyttValg) { 
@@ -66,13 +75,13 @@ public class Meny {
 			System.out.println("Tast inn ansattID på den ansatte du ønsker å søke på: ");
 			ansattID = Integer.parseInt(tastatur.nextLine());
 			ansA = ansattDAO.finnAnsattMedId(ansattID);
-			System.out.println(ansA.toString());
+			ansA.skrivUt();
 			break;
 		case 2:
 			System.out.println("Tast inn brukernavn på den ansatte du ønsker å søke på: ");
 			String brukernavn = tastatur.nextLine();
 			ansA = ansattDAO.finnAnsattMedBrukernavn(brukernavn);
-			System.out.println(ansA.toString());
+			ansA.skrivUt();
 			break;
 		case 3:
 			List<Ansatt> ansatte = ansattDAO.listAlleAnsatte();
@@ -96,13 +105,14 @@ public class Meny {
 			break;
 		case 6:
 			ansattDAO.leggTilAnsatt(nyA);
-			System.out.println("Ansatt: \n" + nyA.toString() + "\ner lagt til");
+			nyA.skrivUt();
+			System.out.println("er lagt til");
 			break;
 		case 7:
 			System.out.println("Tast inn avdelingsID på avdelingen du ønsker å søke på: ");
 			avdelingID = Integer.parseInt(tastatur.nextLine());
 			avdA = avdelingDAO.finnAvdelingMedId(avdelingID);
-			System.out.println(avdA.toString());
+			avdA.skrivUt();
 			break;
 		case 8:
 			System.out.println("Tast inn avdelingsID på avdelingen du ønsker å se ansatte: ");
@@ -122,6 +132,22 @@ public class Meny {
 			System.out.println("Tast inn ansattID på den ansatte du ønsker å gjøre til sjef på avdeling " + avdelingsnavn + ": ");
 			ansattID = Integer.parseInt(tastatur.nextLine());
 			avdelingDAO.lagreNyAvdeling(avdelingsnavn, ansattID);
+			break;
+		case 11:
+			prosjektDAO.leggTilProsjekt(nyP);
+			nyP.skrivUt();
+			System.out.println("er lagt til");
+			break;
+		case 12:
+			System.out.println("Tast inn prosjektetID til prosjektet du ønsker å skrive ut: ");
+			prosjektID = Integer.parseInt(tastatur.nextLine());
+			prosjektDAO.skrivUtAlt(prosjektID);
+			break;
+		case 13:
+			System.out.println("Tast inn prosjektetID til prosjektet du ønsker å lete etter: ");
+			prosjektID = Integer.parseInt(tastatur.nextLine());
+			proA = prosjektDAO.finnProsjektMedId(prosjektID);
+			proA.skrivUt();
 			break;
 			
 		default:
