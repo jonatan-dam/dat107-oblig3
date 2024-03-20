@@ -196,6 +196,25 @@ public class AnsattDAO {
 		}
 	}
 	
+	public void foereTimerPaaProsjekt(int deltagelseID, int timer) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		
+		try {
+			tx.begin();
+			Prosjektdeltagelse pd = em.find(Prosjektdeltagelse.class, deltagelseID);
+			pd.setTimer(pd.getTimer() + timer);
+			tx.commit();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if(tx.isActive()) {
+				tx.rollback();
+			}
+		} finally {
+			em.close();
+		}
+	}
+	
 	
 	
 	

@@ -33,19 +33,28 @@ public class Meny {
 		Scanner tastatur = new Scanner(System.in);
 		
 		System.out.println("\nHva ønsker du å gjøre? Tast: " + "\n" +
+		
+							"Handlinger på ansatt: \n" +
 							"1: Søk etter ansatt ved ansattID" + "\n" +
 							"2: Søk etter ansatt ved brukernavn" + "\n" +
 							"3: Generer en liste av alle ansatte" + "\n" +
 							"4: Oppdater en ansatt sin lønn" + "\n" +
 							"5: Oppdater en ansatt sin stilling" + "\n" +
-							"6: Legg til en ny ansatt" + "\n" +
-							"7: Finn avdeling med ID" + "\n" + 
-							"8: List alle ansatte i en avdeling" + "\n" + 
-							"9: Oppdatere avdeling på en ansatt" + "\n" + 
-							"10: Opprett en ny avdeling" + "\n" + 
-							"11: Legg til et nytt prosjekt" + "\n" + 
-							"12: Skriv ut all info om prosjektet" + "\n" + 
-							"13: Søk etter prosjekt ved ID" + "\n" + 
+							"6: Legg til en ny ansatt" + "\n\n" +
+							"7: Føre timer for ansatt på prosjekt" + "\n" + 
+							
+							"Handlinger på avdeling: \n" +
+							"8: Finn avdeling med ID" + "\n" + 
+							"9: List alle ansatte i en avdeling" + "\n" + 
+							"10: Oppdatere avdeling på en ansatt" + "\n" + 
+							"11: Opprett en ny avdeling" + "\n\n" + 
+							
+							"Handlinger på prosjekt: \n" +
+							"12: Legg til et nytt prosjekt" + "\n" + 
+							"13: Skriv ut all info om prosjektet" + "\n" + 
+							"14: Søk etter prosjekt ved ID" + "\n" + 
+							"15: Skriv ut all informasjon om et prosjekt" + "\n\n" + 
+							
 							"0: Avslutt programmet" + "\n");
 		
 		int nyttValg = Integer.parseInt(tastatur.nextLine());
@@ -58,6 +67,8 @@ public class Meny {
 		int ansattID;
 		int avdelingID;
 		int prosjektID;
+		int deltagelsesID;
+		int timer;
 		String avdelingsnavn;
 		BigDecimal lonn;
 		String stilling;
@@ -109,47 +120,57 @@ public class Meny {
 			System.out.println("er lagt til");
 			break;
 		case 7:
+			System.out.println("Tast inn deltagelsesID på prosjektdeltagelsen du ønsker å føre timer på");
+			deltagelsesID = Integer.parseInt(tastatur.nextLine());
+			System.out.println("Tast inn antall timer");
+			timer = Integer.parseInt(tastatur.nextLine());
+			ansattDAO.foereTimerPaaProsjekt(deltagelsesID, timer);
+			break;
+		case 8:
 			System.out.println("Tast inn avdelingsID på avdelingen du ønsker å søke på: ");
 			avdelingID = Integer.parseInt(tastatur.nextLine());
 			avdA = avdelingDAO.finnAvdelingMedId(avdelingID);
 			avdA.skrivUt();
 			break;
-		case 8:
+		case 9:
 			System.out.println("Tast inn avdelingsID på avdelingen du ønsker å se ansatte: ");
 			avdelingID = Integer.parseInt(tastatur.nextLine());
 			avdelingDAO.listAlleAnsatte(avdelingID);
 			break;
-		case 9:
+		case 10:
 			System.out.println("Tast inn ansattID på den ansatte du ønsker å endre avdelingen til: ");
 			ansattID = Integer.parseInt(tastatur.nextLine());
 			System.out.println("Tast inn avdelingID på avdelingen du ønsker å overføre den ansatte til: ");
 			avdelingID = Integer.parseInt(tastatur.nextLine());
 			ansattDAO.endreAvdeling(ansattID, avdelingID);
 			break;
-		case 10:
+		case 11:
 			System.out.println("Tast inn avdelingsnavn på den nye avdelingen: ");
 			avdelingsnavn = tastatur.nextLine();
 			System.out.println("Tast inn ansattID på den ansatte du ønsker å gjøre til sjef på avdeling " + avdelingsnavn + ": ");
 			ansattID = Integer.parseInt(tastatur.nextLine());
 			avdelingDAO.lagreNyAvdeling(avdelingsnavn, ansattID);
 			break;
-		case 11:
+		case 12:
 			prosjektDAO.leggTilProsjekt(nyP);
 			nyP.skrivUt();
 			System.out.println("er lagt til");
 			break;
-		case 12:
+		case 13:
 			System.out.println("Tast inn prosjektetID til prosjektet du ønsker å skrive ut: ");
 			prosjektID = Integer.parseInt(tastatur.nextLine());
 			prosjektDAO.skrivUtAlt(prosjektID);
 			break;
-		case 13:
+		case 14:
 			System.out.println("Tast inn prosjektetID til prosjektet du ønsker å lete etter: ");
 			prosjektID = Integer.parseInt(tastatur.nextLine());
 			proA = prosjektDAO.finnProsjektMedId(prosjektID);
 			proA.skrivUt();
 			break;
-			
+		case 15:
+			System.out.println("Tast inn prosjektID på prosjektet du ønsker å skrive ut: ");
+			prosjektID = Integer.parseInt(tastatur.nextLine());
+			prosjektDAO.skrivUtAlt(prosjektID);
 		default:
 			uendeligLokke();
 		}

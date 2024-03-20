@@ -1,5 +1,6 @@
 package no.hvl.dat107.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import jakarta.persistence.EntityManager;
@@ -53,7 +54,29 @@ public class ProsjektDAO {
 		
 		return p;
 	}
-	
+
+	public int beregnTotalTimetall(int prosjektID) {
+		EntityManager em = emf.createEntityManager();
+		Prosjekt p = null;
+		int timer = 0;
+		
+		try {
+			p = em.find(Prosjekt.class, prosjektID);
+		} finally {
+			em.close();
+		}
+		
+		List<Prosjektdeltagelse> pd = p.getDeltagelser();
+		
+		for(Prosjektdeltagelse prd : pd) {
+			timer = timer + prd.getTimer();
+		}
+		
+		
+		
+		return timer;
+		
+	}
 	
 	public void skrivUtAlt(int id) {
 		Prosjekt p = finnProsjektMedId(id);
@@ -72,6 +95,6 @@ public class ProsjektDAO {
 	    }
 	    	
 	    
-	    System.out.println("Totalt timetall i prosjektet: ");
+	    System.out.println("Totalt timetall i prosjektet: " + beregnTotalTimetall(id));
 	    }
 }
